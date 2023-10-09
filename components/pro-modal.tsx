@@ -63,7 +63,7 @@ export const ProModal = () => {
         <Separator />
         <div className="flex justify-between">
           <p className="text-2xl font-medium">
-            R$9<span className="text-sm font-normal">.99 / mensal</span>
+            R$0<span className="text-sm font-normal">.0 / mensal</span>
           </p>
           <Button onClick={onSubscribe} disabled={loading} variant="premium">
             Inscreva-se

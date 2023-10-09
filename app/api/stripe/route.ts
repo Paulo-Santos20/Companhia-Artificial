@@ -13,7 +13,7 @@ export async function GET() {
     const user = await currentUser();
 
     if (!userId || !user) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return new NextResponse("Sem autorização", { status: 401 });
     }
 
     const userSubscription = await prismadb.userSubscription.findUnique({
@@ -41,12 +41,12 @@ export async function GET() {
       line_items: [
         {
           price_data: {
-            currency: "USD",
+            currency: "BRL",
             product_data: {
-              name: "Companion Pro",
-              description: "Create Custom AI Companions"
+              name: "Plano PRO da Companhia",
+              description: "Crie companheiros de IA personalizados"
             },
-            unit_amount: 999,
+            unit_amount: 0,
             recurring: {
               interval: "month"
             }
@@ -62,6 +62,6 @@ export async function GET() {
     return new NextResponse(JSON.stringify({ url: stripeSession.url }))
   } catch (error) {
     console.log("[STRIPE]", error);
-    return new NextResponse("Internal Error", { status: 500 });
+    return new NextResponse("Erro Interno", { status: 500 });
   }
 };

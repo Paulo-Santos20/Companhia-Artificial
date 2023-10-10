@@ -11,8 +11,7 @@ async function main() {
         { name: 'Músicos' },
         { name: 'Jogos' },
         { name: 'Animais' },
-        { name: 'Filosofia' },
-        { name: 'Cientistas' },
+        { name: 'Filosofos' },
         { name: 'Minha Mulher' }        
       ],
     });

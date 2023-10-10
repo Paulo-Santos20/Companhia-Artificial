@@ -159,7 +159,7 @@ export const CompanionForm = ({
                   <FormControl>
                     <Input
                       disabled={isLoading}
-                      placeholder="Elon Musk"
+                      placeholder="Neymar Junior"
                       {...field}
                     />
                   </FormControl>

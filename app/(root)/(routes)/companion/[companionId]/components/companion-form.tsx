@@ -127,7 +127,7 @@ export const CompanionForm = ({
         >
           <div className="space-y-2 w-full col-span-2">
             <div>
-              <h3 className="text-lg font-medium">General Information</h3>
+              <h3 className="text-lg font-medium">Informações Gerais</h3>
               <p className="text-sm text-muted-foreground">
                 Informações gerais sobre o seu companheiro
               </p>

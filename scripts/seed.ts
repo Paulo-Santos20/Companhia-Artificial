@@ -6,13 +6,14 @@ async function main() {
   try {
     await db.category.createMany({
       data: [
-        { name: 'Famous People' },
-        { name: 'Movies & TV' },
-        { name: 'Musicians' },
-        { name: 'Games' },
-        { name: 'Animals' },
-        { name: 'Philosophy' },
-        { name: 'Scientists' },
+        { name: 'Pessoas Famosas' },
+        { name: 'Filmes e TV' },
+        { name: 'Músicos' },
+        { name: 'Jogos' },
+        { name: 'Animais' },
+        { name: 'Filosofia' },
+        { name: 'Cientistas' },
+        { name: 'Minha Mulher' }        
       ],
     });
   } catch (error) {

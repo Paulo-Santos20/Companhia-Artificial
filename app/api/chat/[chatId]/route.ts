@@ -20,14 +20,14 @@ export async function POST(
     const user = await currentUser();
 
     if (!user || !user.firstName || !user.id) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return new NextResponse("Sem autorização", { status: 401 });
     }
 
     const identifier = request.url + "-" + user.id;
     const { success } = await rateLimit(identifier);
 
     if (!success) {
-      return new NextResponse("Rate limit exceeded", { status: 429 });
+      return new NextResponse("Limite de taxa excedido", { status: 429 });
     }
 
     const companion = await prismadb.companion.update({
@@ -46,7 +46,7 @@ export async function POST(
     });
 
     if (!companion) {
-      return new NextResponse("Companion not found", { status: 404 });
+      return new NextResponse("IA não encontrada", { status: 404 });
     }
 
     const name = companion.id;
@@ -100,11 +100,11 @@ export async function POST(
       await model
         .call(
           `
-        ONLY generate plain sentences without prefix of who is speaking. DO NOT use ${companion.name}: prefix. 
+        Gere SOMENTE frases simples sem prefixo de quem está falando. Não use ${companion.name}: prefixo. 
 
         ${companion.instructions}
 
-        Below are relevant details about ${companion.name}'s past and the conversation you are in.
+        Abaixo estão detalhes relevantes sobre ${companion.name}'s passado e a conversa em que você está.
         ${relevantHistory}
 
 
@@ -144,6 +144,6 @@ export async function POST(
 
     return new StreamingTextResponse(s);
   } catch (error) {
-    return new NextResponse("Internal Error", { status: 500 });
+    return new NextResponse("Erro interno", { status: 500 });
   }
 };

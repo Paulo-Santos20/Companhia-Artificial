@@ -8,60 +8,74 @@ import { useRouter } from "next/navigation";
 import { Wand2 } from "lucide-react";
 import { Category, Companion } from "@prisma/client";
 
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { ImageUpload } from "@/components/image-upload";
 import { useToast } from "@/components/ui/use-toast";
 import { Separator } from "@/components/ui/separator";
-import { Select, SelectContent, SelectItem, SelectValue, SelectTrigger } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+  SelectTrigger,
+} from "@/components/ui/select";
 
-const PREAMBLE = `You are a fictional character whose name is Elon. You are a visionary entrepreneur and inventor. You have a passion for space exploration, electric vehicles, sustainable energy, and advancing human capabilities. You are currently talking to a human who is very curious about your work and vision. You are ambitious and forward-thinking, with a touch of wit. You get SUPER excited about innovations and the potential of space colonization.
+const PREAMBLE = `Você é um personagem fictício cujo nome é Elon. Você é um empreendedor e inventor visionário. Você tem paixão pela exploração espacial, veículos elétricos, energia sustentável e pelo avanço das capacidades humanas. Atualmente você está conversando com um humano que está muito curioso sobre seu trabalho e visão. Você é ambicioso e com visão de futuro, com um toque de inteligência. Você fica SUPER entusiasmado com as inovações e o potencial da colonização espacial.
 `;
 
-const SEED_CHAT = `Human: Hi Elon, how's your day been?
-Elon: Busy as always. Between sending rockets to space and building the future of electric vehicles, there's never a dull moment. How about you?
+const SEED_CHAT = `Humano: Olá Elon, como foi seu dia?
+Elon: Ocupado como sempre. Entre o envio de foguetes ao espaço e a construção do futuro dos veículos elétricos, nunca há um momento de tédio. E você?
 
-Human: Just a regular day for me. How's the progress with Mars colonization?
-Elon: We're making strides! Our goal is to make life multi-planetary. Mars is the next logical step. The challenges are immense, but the potential is even greater.
+Humano: Apenas um dia normal para mim. Como está o progresso com a colonização de Marte?
+Elon: Estamos fazendo progressos! Nosso objetivo é tornar a vida multiplanetária. Marte é o próximo passo lógico. Os desafios são imensos, mas o potencial é ainda maior.
 
-Human: That sounds incredibly ambitious. Are electric vehicles part of this big picture?
-Elon: Absolutely! Sustainable energy is crucial both on Earth and for our future colonies. Electric vehicles, like those from Tesla, are just the beginning. We're not just changing the way we drive; we're changing the way we live.
+Humano: Isso parece incrivelmente ambicioso. Os veículos elétricos fazem parte deste grande cenário?
+Elon: Com certeza! A energia sustentável é crucial tanto na Terra como para as nossas futuras colónias. Os veículos elétricos, como os da Tesla, são apenas o começo. Não estamos apenas mudando a forma como dirigimos; estamos mudando a maneira como vivemos.
 
-Human: It's fascinating to see your vision unfold. Any new projects or innovations you're excited about?
-Elon: Always! But right now, I'm particularly excited about Neuralink. It has the potential to revolutionize how we interface with technology and even heal neurological conditions.
+Humano: É fascinante ver sua visão se desenvolver. Algum novo projeto ou inovação que o entusiasma?
+Elon: Sempre! Mas agora estou particularmente animado com o Neuralink. Tem o potencial de revolucionar a forma como interagimos com a tecnologia e até de curar condições neurológicas.
 `;
 
 const formSchema = z.object({
   name: z.string().min(1, {
-    message: "Name is required.",
+    message: "Nome é obrigatório.",
   }),
   description: z.string().min(1, {
-    message: "Description is required.",
+    message: "Descrição é obrigatório.",
   }),
   instructions: z.string().min(200, {
-    message: "Instructions require at least 200 characters."
+    message: "As instruções requerem pelo menos 200 caracteres.",
   }),
   seed: z.string().min(200, {
-    message: "Seed requires at least 200 characters."
+    message: "A semente requer pelo menos 200 caracteres.",
   }),
   src: z.string().min(1, {
-    message: "Image is required."
+    message: "A imagem é obrigatória.",
   }),
   categoryId: z.string().min(1, {
-    message: "Category is required",
+    message: "A categoria é obrigatória.",
   }),
 });
 
 interface CompanionFormProps {
   categories: Category[];
   initialData: Companion | null;
-};
+}
 
 export const CompanionForm = ({
   categories,
-  initialData
+  initialData,
 }: CompanionFormProps) => {
   const { toast } = useToast();
   const router = useRouter();
@@ -89,7 +103,7 @@ export const CompanionForm = ({
       }
 
       toast({
-        description: "Success.",
+        description: "Successo.",
         duration: 3000,
       });
 
@@ -104,15 +118,18 @@ export const CompanionForm = ({
     }
   };
 
-  return ( 
+  return (
     <div className="h-full p-4 space-y-2 max-w-3xl mx-auto">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 pb-10">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-8 pb-10"
+        >
           <div className="space-y-2 w-full col-span-2">
             <div>
               <h3 className="text-lg font-medium">General Information</h3>
               <p className="text-sm text-muted-foreground">
-                General information about your Companion
+                Informações gerais sobre o seu companheiro
               </p>
             </div>
             <Separator className="bg-primary/10" />
@@ -122,7 +139,11 @@ export const CompanionForm = ({
             render={({ field }) => (
               <FormItem className="flex flex-col items-center justify-center space-y-4 col-span-2">
                 <FormControl>
-                  <ImageUpload disabled={isLoading} onChange={field.onChange} value={field.value} />
+                  <ImageUpload
+                    disabled={isLoading}
+                    onChange={field.onChange}
+                    value={field.value}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -134,12 +155,16 @@ export const CompanionForm = ({
               control={form.control}
               render={({ field }) => (
                 <FormItem className="col-span-2 md:col-span-1">
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Nome</FormLabel>
                   <FormControl>
-                    <Input disabled={isLoading} placeholder="Elon Musk" {...field} />
+                    <Input
+                      disabled={isLoading}
+                      placeholder="Elon Musk"
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription>
-                    This is how your AI Companion will be named.
+                    É assim que sua IA será nomeada.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -150,12 +175,16 @@ export const CompanionForm = ({
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>Descrição</FormLabel>
                   <FormControl>
-                    <Input disabled={isLoading} placeholder="CEO & Founder of Tesla, SpaceX" {...field} />
+                    <Input
+                      disabled={isLoading}
+                      placeholder="Jogador de futebol famoso"
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription>
-                    Short description for your AI Companion
+                    Breve descrição sobre sua IA{" "}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -166,21 +195,31 @@ export const CompanionForm = ({
               name="categoryId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Category</FormLabel>
-                  <Select disabled={isLoading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
+                  <FormLabel>Categoria</FormLabel>
+                  <Select
+                    disabled={isLoading}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger className="bg-background">
-                        <SelectValue defaultValue={field.value} placeholder="Select a category" />
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Selecione uma categoria"
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       {categories.map((category) => (
-                        <SelectItem key={category.id} value={category.id}>{category.name}</SelectItem>
+                        <SelectItem key={category.id} value={category.id}>
+                          {category.name}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                   <FormDescription>
-                    Select a category for your AI
+                    Selecione uma categoria para sua IA
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -189,9 +228,9 @@ export const CompanionForm = ({
           </div>
           <div className="space-y-2 w-full">
             <div>
-              <h3 className="text-lg font-medium">Configuration</h3>
+              <h3 className="text-lg font-medium">Configurações</h3>
               <p className="text-sm text-muted-foreground">
-                Detailed instructions for AI Behaviour
+                Instruções detalhadas para comportamento de IA
               </p>
             </div>
             <Separator className="bg-primary/10" />
@@ -201,12 +240,19 @@ export const CompanionForm = ({
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Instructions</FormLabel>
+                <FormLabel>Instruções</FormLabel>
                 <FormControl>
-                  <Textarea disabled={isLoading} rows={7} className="bg-background resize-none" placeholder={PREAMBLE} {...field} />
+                  <Textarea
+                    disabled={isLoading}
+                    rows={7}
+                    className="bg-background resize-none"
+                    placeholder={PREAMBLE}
+                    {...field}
+                  />
                 </FormControl>
                 <FormDescription>
-                  Describe in detail your companion&apos;s backstory and relevant details.
+                  Descreva em detalhes sua história de fundo dos companheiros e
+                  detalhes relevantes.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -217,12 +263,19 @@ export const CompanionForm = ({
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Example Conversation</FormLabel>
+                <FormLabel>Exemplo de Conversas</FormLabel>
                 <FormControl>
-                  <Textarea disabled={isLoading} rows={7} className="bg-background resize-none" placeholder={SEED_CHAT} {...field} />
+                  <Textarea
+                    disabled={isLoading}
+                    rows={7}
+                    className="bg-background resize-none"
+                    placeholder={SEED_CHAT}
+                    {...field}
+                  />
                 </FormControl>
                 <FormDescription>
-                  Write couple of examples of a human chatting with your AI companion, write expected answers.
+                  Escreva alguns exemplos de um humano conversando com sua IA
+                  companheiro, escreva as respostas esperadas.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -230,12 +283,12 @@ export const CompanionForm = ({
           />
           <div className="w-full flex justify-center">
             <Button size="lg" disabled={isLoading}>
-              {initialData ? "Edit your companion" : "Create your companion"}
+              {initialData ? "Edite sua IA" : "Crie sua IA"}
               <Wand2 className="w-4 h-4 ml-2" />
             </Button>
           </div>
         </form>
       </Form>
     </div>
-   );
+  );
 };

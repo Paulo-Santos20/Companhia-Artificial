@@ -12,7 +12,7 @@ async function main() {
         { name: 'Jogos' },
         { name: 'Animais' },
         { name: 'Filosofos' },
-        { name: 'Minha Mulher' }        
+        { name: 'Minha Mulher' }
       ],
     });
   } catch (error) {

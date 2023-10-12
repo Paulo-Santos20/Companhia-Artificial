@@ -10,23 +10,34 @@ import { MobileSidebar } from "@/components/mobile-sidebar";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 
-
 const font = Poppins({
   weight: "600",
-  subsets: ["latin"]
-})
+  subsets: ["latin"],
+});
 
 export const Navbar = () => {
-  return ( 
+  return (
     <div className="fixed w-full z-50 flex justify-between items-center py-2 px-4 h-16 border-b border-primary/10 bg-secondary">
       <div className="flex items-center">
-        <MobileSidebar  />
+        <MobileSidebar />
         <Link href="/">
-          <h1 className={cn("hidden md:block text-xl md:text-3xl font-bold text-primary", font.className)}>
+          <h1
+            className={cn(
+              "hidden md:block text-xl md:text-3xl font-bold text-primary",
+              font.className
+            )}
+          >
             Companhia Artificial
           </h1>
         </Link>
-      </div>      
+      </div>
+      <div className="flex items-center gap-x-3">
+        <Button variant="premium" size="sm">
+          Atualizar Plano
+              <Sparkles className="h-4 w-4 fill-white ml-2"/>
+        </Button>
+        <UserButton />
+      </div>
     </div>
   );
-}
+};

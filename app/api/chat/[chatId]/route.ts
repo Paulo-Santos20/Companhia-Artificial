@@ -11,10 +11,7 @@ import prismadb from "@/lib/prismadb";
 
 dotenv.config({ path: `.env` });
 
-export async function POST(
-  request: Request,
-  { params }: { params: { chatId: string } }
-) {
+export async function POST(request: Request, { params }: { params: { chatId: string } }) {
   try {
     const { prompt } = await request.json();
     const user = await currentUser();
@@ -69,9 +66,6 @@ export async function POST(
 
     const recentChatHistory = await memoryManager.readLatestHistory(companionKey);
 
-    // Right now the preamble is included in the similarity search, but that
-    // shouldn't be an issue
-
     const similarDocs = await memoryManager.vectorSearch(
       recentChatHistory,
       companion_file_name
@@ -107,24 +101,20 @@ export async function POST(
         Abaixo estão detalhes relevantes sobre ${companion.name}'s passado e a conversa em que você está.
         ${relevantHistory}
 
-
         ${recentChatHistory}\n${companion.name}:`
         )
-        .catch(console.error)
+        .catch((error) => {
+          console.error(error);
+          throw error; // Lança o erro para tratamento posterior
+        })
     );
 
-    const cleaned = resp.replaceAll(",", "");
-    const chunks = cleaned.split("\n");
-    const response = chunks[0];
+    if (resp && resp.length > 1) {
+      const cleaned = resp.replace(/,/g, "");
+      const chunks = cleaned.split("\n");
+      const response = chunks[0];
 
-    await memoryManager.writeToHistory("" + response.trim(), companionKey);
-    var Readable = require("stream").Readable;
-
-    let s = new Readable();
-    s.push(response);
-    s.push(null);
-    if (response !== undefined && response.length > 1) {
-      memoryManager.writeToHistory("" + response.trim(), companionKey);
+      await memoryManager.writeToHistory("" + response.trim(), companionKey);
 
       await prismadb.companion.update({
         where: {
@@ -142,8 +132,15 @@ export async function POST(
       });
     }
 
+    const Readable = require("stream").Readable;
+
+    let s = new Readable();
+    s.push(Response);
+    s.push(null);
+
     return new StreamingTextResponse(s);
   } catch (error) {
+    console.error(error);
     return new NextResponse("Erro interno", { status: 500 });
   }
-};
+}
